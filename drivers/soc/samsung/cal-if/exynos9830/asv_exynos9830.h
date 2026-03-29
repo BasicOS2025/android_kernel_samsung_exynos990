@@ -80,12 +80,15 @@ int asv_get_grp(unsigned int id)
 		break;
 	case CPUCL1:
 		grp = asv_tbl.midcpu_asv_group + asv_tbl.midcpu_modify_group;
+		grp += 1;
 		break;
 	case CPUCL2:
 		grp = asv_tbl.bigcpu_asv_group + asv_tbl.bigcpu_modify_group;
+		grp += 2;
 		break;
 	case G3D:
 		grp = asv_tbl.g3d_asv_group + asv_tbl.g3d_modify_group;
+		grp += 2;
 		break;
 	case NPU:
 	case DNC:
