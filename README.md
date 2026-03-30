@@ -9,7 +9,7 @@ https://source.android.com/docs/setup/start/requirements
 
 2. Properly clone repository with submodules (KernelSU and toolchains)
 
-```git clone --recurse-submodules https://github.com/Android-Artisan/android_kernel_samsung_exynos990.git```
+```git clone --recurse-submodules https://github.com/BasicOS2025/android_kernel_samsung_exynos990.git```
 
 3. Build for your device without CCache and with KSU
 
@@ -17,7 +17,7 @@ https://source.android.com/docs/setup/start/requirements
 
 4. Fetch the flashable zip of the kernel that was just compiled
 
-```build/out/[your_device]/ArtisanKRNL...zip```
+```build/out/[your_device]/BasicKRNL...zip```
 
 5. Flash it using a supported recovery like TWRP either using the install function or ADB Sideload
 
@@ -42,3 +42,7 @@ See Documentation/00-INDEX for a list of what is contained in each file.
 Please read the Documentation/process/changes.rst file, as it contains the
 requirements for building and running the kernel, and information about
 the problems which may result by upgrading your kernel.
+
+Current status:
+Z3S(SM-G988B) on work
+C2S and others on plan but not started.
