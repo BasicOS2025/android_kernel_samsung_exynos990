@@ -341,69 +341,74 @@
 
 				nad_balancer,timeout = <400>;
 
-qos {
+				qos {
 					cl0 {
 						qos,label="LIT";
 						qos,delay_time=<9>;
-						qos,table_size=<14>; /* 13 -> 14 yapıldı */
-						qos,table=<2002000 1950000 1846000 1742000 1586000 1456000 1300000 1157000 1053000 949000 806000 650000 546000 442000>;
+						qos,table_size=<13>;
+						qos,table=<1950000 1846000 1742000 1586000 1456000 1300000 1157000 1053000 949000
+							806000 650000 546000 442000>;
 					};
 
 					cl1 {
 						qos,label="MID";
 						qos,delay_time=<8>;
-						qos,table_size=<19>; /* 17 -> 19 yapıldı */
-						qos,table=<2500000 2418000 2314000 2210000 2106000 2002000 1898000 1794000 1690000 1586000 1508000 1404000 1222000 1066000 962000 845000 754000 650000 507000>;
+						qos,table_size=<17>;
+						qos,table=<2314000 2210000 2106000 2002000 1898000 1794000 1690000 1586000 1508000
+							1404000 1222000 1066000 962000 845000 754000 650000 507000>;
 					};
 
 					cl2 {
 						qos,label="BIG";
 						qos,delay_time=<7>;
-						qos,table_size=<19>; /* 18 -> 19 yapıldı */
-						qos,table=<3000000 2314000 2210000 2106000 2002000 1898000 1794000 1690000 1586000 1482000 1378000 1170000 1066000 962000 858000 754000 650000 546000>;
+						qos,table_size=<18>;
+						qos,table=<2314000 2210000 2106000 2002000 1898000 1794000 1690000 1586000 1482000 
+							1378000 1274000 1170000 1066000 962000 858000 754000 650000 546000>;
 					};
 
 					mif {
 						qos,label="MIF";
 						qos,delay_time=<10>;
-						qos,table_size=<6>; /* 5 -> 6 yapıldı */
-						qos,table=<2100000 2028000 1716000 1539000 1352000 1014000>;
+						qos,table_size=<5>;
+						qos,table=<2028000 1716000 1539000 1352000 1014000>;
 					};
 				};
 
 				sleep {
+					/* per msec */
 					sleep,suspend_threshold = <1000>;
 					sleep,resume_threshold = <1000>;
 				};
 			};
 
-		argos {
+			argos {
 				compatible = "samsung,argos";
 				#address-cells = <1>;
+				/*  The device number should be assigned for each device, e.g. "boot_device@1" and "boot_device@2".
+				 * Duplicated number is not allowed. Please refer the below example.
+				 */
 
-				boot_device@7 {
-					net_boost,label="USB";
-					net_boost,node="rndis0";
-					net_boost,table {
-						level_5 {
-							threshold = <1500>;
-							mid_min = <2500000>; /* MID OC'ye çekildi */
-							lit_min = <2002000>; /* LIT OC'ye çekildi */
-							mif = <2100000>;     /* MIF OC'ye çekildi */
-							int =<534000>;
-							irq_affinity = "enable";
-						};
-						level_6 {
-							threshold = <1600>;
-							mid_min = <2500000>;
-							lit_min = <2002000>;
-							mif = <2100000>;
-							int =<534000>;
-							irq_affinity = "enable";
-						};
-					};
-				};
-			};
+				/* Table Format
+				 * threshold : throughput threshold(Mbps)
+				 * big_min : Big Core's minimum frequency lock. 0 means not set,
+				 * big_max : Big Core's maximum frequency lock. 0 means not set,
+				 * mid_min : Middle Core's minimum frequency lock. 0 means not set,
+				 * mid_max : Middle Core's maximum frequency lock. 0 means not set,
+				 * lit_min : Little Core's minimum frequency lock. 0 means not set,
+				 * lit_max : Little Core's maximum frequency lock. 0 means not set,
+				 * mif : MIF frequency lock. 0 means not set,
+				 * int : INT frequency lock. 0 means not set,
+				 * task_affinity : "enable" - Set task affinity lock.
+				 *	           "disable" - Not set or unlock,
+				 *		   Task affinity should be predefined driver's code.
+				 * irq_affinity : "enable" - Set irq affinity lock.
+				 *                "disable" - Not set or unlock,
+				 *		  IRQ affinity should be predefined driver's code.
+				 * hmp_boot : "enable" - Increase hmp boosting count
+				 *            "disable" - Decrease hmp boosting count
+				 */
+
+				boot_device@1 {
 					net_boost,label="UFS";
 					net_boost,node="";
 					net_boost,sysnode="/sys/class/scsi_host/host0/transferred_cnt";
@@ -1182,4 +1187,3 @@ qos {
 &mafpc_0 {
     status = "okay";
 };
-
